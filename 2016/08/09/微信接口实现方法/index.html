@@ -1,0 +1,881 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="企业号,微信接口," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1.发消息(能力接口)1.1    发送接口说明
+请求说明Https请求方式: POSThttps://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN消息型应用支持文本、图片、语音、视频、文件、图文等消息类型。主页型应用只支持文本消息类型，且文本长度不超过20个字。
+参数说明access_token:调用接口凭证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信接口实现方法(企业号)">
+<meta property="og:url" content="http://yoursite.com/2016/08/09/微信接口实现方法/index.html">
+<meta property="og:site_name" content="San Fransisco">
+<meta property="og:description" content="1.发消息(能力接口)1.1    发送接口说明
+请求说明Https请求方式: POSThttps://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN消息型应用支持文本、图片、语音、视频、文件、图文等消息类型。主页型应用只支持文本消息类型，且文本长度不超过20个字。
+参数说明access_token:调用接口凭证">
+<meta property="og:image" content="http://i2.piimg.com/567571/1cb1e11e9993fb71.png">
+<meta property="og:updated_time" content="2016-08-09T15:56:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信接口实现方法(企业号)">
+<meta name="twitter:description" content="1.发消息(能力接口)1.1    发送接口说明
+请求说明Https请求方式: POSThttps://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN消息型应用支持文本、图片、语音、视频、文件、图文等消息类型。主页型应用只支持文本消息类型，且文本长度不超过20个字。
+参数说明access_token:调用接口凭证">
+<meta name="twitter:image" content="http://i2.piimg.com/567571/1cb1e11e9993fb71.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/09/微信接口实现方法/"/>
+
+  <title> 微信接口实现方法(企业号) | San Fransisco </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">San Fransisco</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Every little helps</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微信接口实现方法(企业号)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-09T23:14:14+08:00" content="2016-08-09">
+              2016-08-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/项目总结/" itemprop="url" rel="index">
+                    <span itemprop="name">项目总结</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/09/微信接口实现方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/09/微信接口实现方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-发消息-能力接口"><a href="#1-发消息-能力接口" class="headerlink" title="1.发消息(能力接口)"></a>1.发消息(能力接口)</h1><h2 id="1-1-发送接口说明"><a href="#1-1-发送接口说明" class="headerlink" title="1.1    发送接口说明"></a>1.1    发送接口说明</h2><ul>
+<li>请求说明<br>Https请求方式: POST<br><a href="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN" target="_blank" rel="external">https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN</a><br>消息型应用支持文本、图片、语音、视频、文件、图文等消息类型。主页型应用只支持文本消息类型，且文本长度不超过20个字。</li>
+<li>参数说明<br>access_token:调用接口凭证</li>
+<li>权限说明<br>收件人必须处于应用的可见范围内，并且管理组对应用有使用权限、对收件人有查看权限，否则本次调用失败。</li>
+<li>返回结果<br>如果无权限，则本次发送失败；如果收件人不存在或未关注，发送仍然执行。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"errcode"</span>:<span class="number">0</span>,</span><br><span class="line">  <span class="string">"errmsg"</span>:<span class="string">"ok"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-消息类型及数据格式"><a href="#1-2-消息类型及数据格式" class="headerlink" title="1.2    消息类型及数据格式"></a>1.2    消息类型及数据格式</h2><p>微信共提供7种消息类型：<br>1、text消息；2、image消息；3、voice消息；4、video消息；5、file消息；6、news消息；7、mpnews消息；以news消息为例，请求数据格式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  touser: <span class="string">'userID1|userID2'</span>, <span class="comment">//成员ID列表</span></span><br><span class="line">  msgtype: <span class="string">'news'</span>, <span class="comment">//消息类型</span></span><br><span class="line">  agented: <span class="number">1</span>, <span class="comment">//企业应用的id，整型。</span></span><br><span class="line">  news: &#123;</span><br><span class="line">  	articles: [ <span class="comment">//图文消息</span></span><br><span class="line">  	  &#123;</span><br><span class="line">  	  	title: <span class="string">'Title'</span>, <span class="comment">//标题</span></span><br><span class="line">  	  	description: <span class="string">'Description'</span>, <span class="comment">//描述</span></span><br><span class="line">  	  	url: <span class="string">'URL'</span>, <span class="comment">//点击后跳转的链接</span></span><br><span class="line">  	  	picurl: <span class="string">'PIC_URL'</span> <span class="comment">//图文消息的图片链接</span></span><br><span class="line">  	  &#125;,</span><br><span class="line">  	  &#123;</span><br><span class="line">  	  	title: <span class="string">'Title'</span>,</span><br><span class="line">  	  	description: <span class="string">'Description'</span>,</span><br><span class="line">  	  	url: <span class="string">'URL'</span>,</span><br><span class="line">  	  	picurl: <span class="string">'PIC_URL'</span></span><br><span class="line">  	  &#125;</span><br><span class="line">  	]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-3-调用方法"><a href="#1-3-调用方法" class="headerlink" title="1.3    调用方法"></a>1.3    调用方法</h2><p>以服务器端语言PHP为例，具体介绍接口的调用过程：</p>
+<h3 id="1-3-1-获取企业密钥"><a href="#1-3-1-获取企业密钥" class="headerlink" title="1.3.1    获取企业密钥"></a>1.3.1    获取企业密钥</h3><p>利用cURL请求URL，请求方式为GET请求，这里为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, <span class="literal">false</span>);</span><br><span class="line">curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>同时，由于获取密钥的有效期为7200秒，(通过获取到的结果中expires_in属性可以查看)，频繁请求接口容易导致受限，为解决以上问题我们采用读取PHP文件缓存的技术。这里我们调用PHP的file_get_contents()函数来读取PHP文件，它的作用是将整个文件读入一个字符串中，且可安全用于二进制对象。成功读取到文件后便可利用文件存储的缓存时间与当前时间做判断，若小于当前时间代表密钥过期，需重新请求密钥，若大于当前时间可直接获得缓存密钥，实现过程如图1所示。</p>
+<p><img src="http://i2.piimg.com/567571/1cb1e11e9993fb71.png" alt=""></p>
+<h3 id="1-3-2-JSON编码"><a href="#1-3-2-JSON编码" class="headerlink" title="1.3.2    JSON编码"></a>1.3.2    JSON编码</h3><p>整理并通过json_encode函数编码请求参数时，会出现使汉字编码成’\U<em>*</em>’的形式(php5.4已经解决这个问题，使用json_encode(“中文”, JSON_UNESCAPED_UNICODE))。为解决此问题，我们采用字符转码方式，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encode_json</span>(<span class="params">$str</span>)</span>&#123;  </span><br><span class="line">  $code = json_encode($str);  </span><br><span class="line">  <span class="keyword">return</span> preg_replace(<span class="string">"#\\\u([0-9a-f]&#123;4&#125;)#ie"</span>, <span class="string">"iconv('UCS-2', 'UTF-8', pack('H4', '\\1'))"</span>, $code); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过简单的正则替换方法，解决汉字不能正常显示的问题。</p>
+<h3 id="1-3-3-POST请求"><a href="#1-3-3-POST请求" class="headerlink" title="1.3.3    POST请求"></a>1.3.3    POST请求</h3><p>发出POST请求，完成发送消息功能。这里我们使用cURL实现POST请求的方法。cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。使用cURL完成请求的基本步骤为：<br>1）初始化    curl_init()<br>2）设置变量     curl_setopt()<br>3）执行并获取结果    curl_exec()<br>4）释放cURL句柄    curl_close()<br>通过设置cURL选项实现POST的请求如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch, CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);</span><br></pre></td></tr></table></figure></p>
+<h1 id="2-身份验证-认证接口"><a href="#2-身份验证-认证接口" class="headerlink" title="2    身份验证(认证接口)"></a>2    身份验证(认证接口)</h1><h2 id="2-1-OAuth验证接口"><a href="#2-1-OAuth验证接口" class="headerlink" title="2.1     OAuth验证接口"></a>2.1     OAuth验证接口</h2><p>企业应用中的URL链接（包括自定义菜单或者消息中的链接），可以通过微信OAuth2.0验证接口来获取成员的身份信息。</p>
+<h2 id="2-2-企业获取code"><a href="#2-2-企业获取code" class="headerlink" title="2.2     企业获取code"></a>2.2     企业获取code</h2><p>企业如果需要员工在跳转到企业网页时带上员工的身份信息，需构造如下的链接：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//open.weixin.qq.com/connect/oauth2/authorize?appid=CORPID&amp;redirect_uri=REDIRECT_URI&amp;response_type=code&amp;scope=SCOPE&amp;state=STATE#wechat_redirect</span></span><br></pre></td></tr></table></figure></p>
+<p>参数说明：</p>
+<ul>
+<li>appid: 企业的CorpID</li>
+<li>redirect_uri: 授权后重定向的回调链接地址</li>
+<li>response_type: 返回类型，此时固定为code</li>
+<li>scope: 应用授权作用域，此时固定为：snsapi_base</li>
+<li>#wechat_redirect: 微信终端使用此参数判断是否需要带上身份信息<br>员工点击后，页面将跳转至 redirect_uri?code=CODE&amp;state=STATE，企业可根据code参数获得员工的userid。</li>
+</ul>
+<h2 id="2-3-根据code获取成员信息"><a href="#2-3-根据code获取成员信息" class="headerlink" title="2.3     根据code获取成员信息"></a>2.3     根据code获取成员信息</h2><ul>
+<li><p>Https请求方式：GET</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=ACCESS_TOKEN&amp;code=CODE</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数说明：<br>access_token：调用接口凭证<br>code：通过成员授权获取到的code</p>
+</li>
+<li><p>返回结果：</p>
+</li>
+</ul>
+<p>企业成员授权时返回示例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">'UserId'</span>:<span class="string">'USERID'</span>,</span><br><span class="line">  <span class="string">'DeviceId'</span>:<span class="string">'DEVICEID'</span>	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>非企业成员授权时返回示例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">'OpenId'</span>:<span class="string">'OPENID'</span>,</span><br><span class="line">  <span class="string">'DeviceId'</span>:<span class="string">'DEVICEID'</span>	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>出错时返回示例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">'errcode'</span>: <span class="number">40029</span>,</span><br><span class="line">  <span class="string">'errmsg'</span>:<span class="string">'invalid code'</span>	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-4-调用方法"><a href="#2-4-调用方法" class="headerlink" title="2.4     调用方法"></a>2.4     调用方法</h2><p>获取企业密钥和code参数后，通过cURL配置选项参数，发送GET请求，并将请求结果返回到前端进行解析和处理。这里前端code参数的获取来自当前所有浏览器都支持的window对象的location对象，其包含的search属性即window.Location.search用来获取当前url中”?”后面的字符串。编写正则表达式以匹配字符串中的code值:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"(^|&amp;)"</span> + name + <span class="string">"=([^&amp;]*)(&amp;|$)"</span>, <span class="string">"i"</span>); </span><br><span class="line"><span class="keyword">var</span> url=<span class="built_in">window</span>.location.search;</span><br><span class="line"><span class="keyword">var</span> r = url.substr(<span class="number">1</span>).match(reg);</span><br><span class="line"><span class="keyword">if</span> (r != <span class="literal">null</span>) <span class="keyword">return</span> <span class="built_in">unescape</span>(r[<span class="number">2</span>]); <span class="keyword">return</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-管理成员-资源接口"><a href="#3-管理成员-资源接口" class="headerlink" title="3    管理成员(资源接口)"></a>3    管理成员(资源接口)</h1><p>微信企业号公众平台提供管理企业内部成员包括创建、更新、删除以及获取成员的开放接口。根据各接口的请求方式，在服务器端(以PHP为例)利用cURL发送请求并将请求结果返回到前端进行解析和处理，通过AJAX实现前后端数据的传递。此处，我们采用了jQuery的promise用法，即函数调用返回一个promise对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//… some code</span></span><br><span class="line">	<span class="keyword">return</span> $.ajax(<span class="built_in">Object</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Promise是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
+<p>Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise是一个对象，从它可以获取异步操作的消息。Promise提供统一的API，各种异步操作都可以用同样的方法进行处理。</p>
+<p>有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。</p>
+<p>Promise也有一些缺点。首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。第三，当处于Pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/企业号/" rel="tag">#企业号</a>
+          
+            <a href="/tags/微信接口/" rel="tag">#微信接口</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/09/基于百度地图API的空间地理编码技术/" rel="next" title="基于百度地图API的空间地理编码技术">
+                <i class="fa fa-chevron-left"></i> 基于百度地图API的空间地理编码技术
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/09/微信接口实现方法/"
+           data-title="微信接口实现方法(企业号)" data-url="http://yoursite.com/2016/08/09/微信接口实现方法/">
+      </div>
+    
+  </div>
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="inpaauI" />
+          <p class="site-author-name" itemprop="name">inpaauI</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/maliangxu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-发消息-能力接口"><span class="nav-number">1.</span> <span class="nav-text">1.发消息(能力接口)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-发送接口说明"><span class="nav-number">1.1.</span> <span class="nav-text">1.1    发送接口说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-消息类型及数据格式"><span class="nav-number">1.2.</span> <span class="nav-text">1.2    消息类型及数据格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-调用方法"><span class="nav-number">1.3.</span> <span class="nav-text">1.3    调用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-获取企业密钥"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1    获取企业密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-JSON编码"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2    JSON编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-POST请求"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3.3    POST请求</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-身份验证-认证接口"><span class="nav-number">2.</span> <span class="nav-text">2    身份验证(认证接口)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-OAuth验证接口"><span class="nav-number">2.1.</span> <span class="nav-text">2.1     OAuth验证接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-企业获取code"><span class="nav-number">2.2.</span> <span class="nav-text">2.2     企业获取code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-根据code获取成员信息"><span class="nav-number">2.3.</span> <span class="nav-text">2.3     根据code获取成员信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-调用方法"><span class="nav-number">2.4.</span> <span class="nav-text">2.4     调用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-管理成员-资源接口"><span class="nav-number">3.</span> <span class="nav-text">3    管理成员(资源接口)</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">inpaauI</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maliangxu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
